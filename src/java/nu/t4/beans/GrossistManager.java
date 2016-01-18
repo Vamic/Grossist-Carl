@@ -149,9 +149,9 @@ public class GrossistManager {
 
             //Update the level
             sql = String.format("UPDATE kund SET premienivå_id = "
-                    + "(SELECT id FROM premienivå WHERE krav < "
-                    + "(SELECT sum(pris*mängd) FROM vara,beställning_vara "
-                    + "WHERE vara.id = vara_id AND 2 = "
+                    + "(SELECT id FROM premienivå WHERE krav <= "
+                    + "(SELECT COALESCE(SUM(pris*mängd),0) FROM vara,beställning_vara "
+                    + "WHERE vara.id = vara_id AND %d = "
                     + "(SELECT kund_id FROM beställning "
                     + "WHERE beställning.id = beställning_id)) "
                     + "ORDER BY id DESC LIMIT 1) "
